@@ -6,38 +6,30 @@ import kotlin.system.measureTimeMillis
 fun main() {
     val lines = File("directory.txt").readLines()
     val searchLines = File("find.txt").readLines()
-    val res = Result()
-    println("Start searching...")
+    var searchResult: SearchResult? = null
 
-    val time = measureTimeMillis {
-        linearSearch(lines, searchLines, res)
+    println("Start searching (linear search)...")
+    val linearSearchTime = measureTimeMillis {
+        searchResult = searchAll(searchLines, lines, ::linearSearch)
     }
-    printResult(res, time)
+    val lsTime = linearSearchTime.millisecToString()
+    println("$searchResult Time taken: $lsTime")
+
 }
 
-class Result(var found: Int = 0, var all: Int = 0)
-
-private fun printResult(result: Result, millis: Long) {
-    val ms = millis % 1000
-    val allsec = millis / 1000
-    val sec = allsec % 60
-    val min = allsec / 60
-    println("Found ${result.found} / ${result.all} entries. Time taken: $min min. $sec sec. $ms ms.")
-}
-
-private fun linearSearch(lines: List<String>, searchLines: List<String>, result: Result) {
+fun searchAll(
+        what: List<String>,
+        where: List<String>,
+        search: (String, List<String>) -> Int
+): SearchResult {
     var cntAll: Int = 0
     var cntSearch: Int = 0
 
-    for (line in searchLines) {
+    for (obj in what) {
         cntAll++
-        for (testLine in lines) {
-            if (testLine.contains(line)) {
-                cntSearch++
-                break
-            }
-        }
+        val itemIndex = search(obj, where)
+        if (itemIndex > -1) cntSearch++
     }
-    result.all = cntAll
-    result.found = cntSearch
+
+    return SearchResult(cntSearch, cntAll)
 }
