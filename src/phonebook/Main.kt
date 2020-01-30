@@ -4,22 +4,22 @@ import java.io.File
 import kotlin.system.measureTimeMillis
 
 fun main() {
-    val lines = File("directory.txt").readLines()
-    val searchLines = File("find.txt").readLines()
+    val lines = File("C:\\Users\\user\\Downloads\\directory.txt").readLines().toMutableList()
+    val searchLines = File("C:\\Users\\user\\Downloads\\find.txt").readLines()
 
     val linearSearchTime = testLinearSearch(searchLines, lines)
 
+    println()
+
     val secondSearchTime = testJumpSearchWithBubbleSort(searchLines, lines, linearSearchTime * 10L)
-
-
 }
 
-private fun testJumpSearchWithBubbleSort(searchLines: List<String>, lines: List<String>, maxSearchTime: Long): Long {
+private fun testJumpSearchWithBubbleSort(searchLines: List<String>, lines: MutableList<String>, maxSearchTime: Long): Long {
     println("Start searching (bubble sort + jump search)...")
 
     var stopped = false
     val bubbleSortTime = measureTimeMillis {
-        stopped = bubleSortWithStop(lines, maxSearchTime)
+        stopped = bubbleSortWithStop(lines, maxSearchTime)
     }
 
     val result = if (stopped) {
