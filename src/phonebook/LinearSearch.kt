@@ -1,9 +1,7 @@
 package phonebook
 
-internal fun linearSearch(searchLine: String, lines: List<String>): Int {
-
-    for (i in lines.indices) {
-        if (lines[i].contains(searchLine)) return i
+internal fun linearSearch(records: List<Record>, searchName: String): Record? {
+    return records.firstOrNull { record ->
+        record.name == searchName
     }
-    return -1
 }
