@@ -47,6 +47,17 @@ private fun quickSort(records: MutableList<Record>, low: Int, high: Int) {
 }
 
 private fun partition(records: MutableList<Record>, low: Int, high: Int): Int {
+    val mid = low + (high - low) / 2
+    if (records[mid].name < records[low].name) {
+        swap(records, low, mid)
+    }
+    if (records[high].name < records[low].name) {
+        swap(records, low, high)
+    }
+    if (records[mid].name < records[high].name) {
+        swap(records, mid, high)
+    }
+
     val pivot = records[high]
     var i = low
     for (j in low..high - 1) {
