@@ -2,7 +2,7 @@ package phonebook
 
 import java.io.File
 
-fun importRecordsFromFile(name: String): List<Record> {
+fun importRecordsFromFile(name: String): PhoneBook {
     val file = File(name)
     val records = mutableListOf<Record>()
 
@@ -11,7 +11,7 @@ fun importRecordsFromFile(name: String): List<Record> {
         record?.let { records.add(record) }
     }
 
-    return records
+    return PhoneBook(records)
 }
 
 private fun lineToRecord(line: String): Record? {
