@@ -13,7 +13,7 @@ internal fun jumpSearch(records: List<Record>, searchName: String): Record? {
     var index = 0
 
     while (index < records.size) {
-        if (records[index].name == searchName) break
+        if (records[index].name >= searchName) break
         if (records[index].name < searchName) {
             index += blockSize
         }
