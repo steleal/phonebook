@@ -3,28 +3,27 @@ package phonebook
 import kotlin.system.measureTimeMillis
 
 fun main() {
-    val unsortRecords = importRecordsFromFile("C:\\Users\\user\\Downloads\\directory.txt")
+    val book = importRecordsFromFile("C:\\Users\\user\\Downloads\\directory.txt")
     val searchLines = importLinesFromFile("C:\\Users\\user\\Downloads\\find.txt")
 
-    testSearchWithSort(
+    val linearSearchTime = testSearchWithSort(
             searchLines,
-            PhoneBook(unsortRecords.toMutableList()),
+            book,
             ::linearSearch,
             null,
             "Start searching (linear search)..."
     )
 
-    testSearchWithSort(
+    specialTestCaseWithBubbleSortAndJumpSearch(
             searchLines,
-            PhoneBook(unsortRecords.toMutableList()),
-            ::jumpSearch,
-            ::bubbleSort,
-            "Start searching (bubble sort + jump search)..."
+            book,
+            "Start searching (bubble sort + jump search)...",
+            linearSearchTime * 10
     )
 
     testSearchWithSort(
             searchLines,
-            PhoneBook(unsortRecords.toMutableList()),
+            book,
             ::binarySearch,
             ::quickSort,
             "Start searching (quick sort + binary search)..."
@@ -37,7 +36,7 @@ private fun testSearchWithSort(
         search: (List<Record>, String) -> Record?,
         sort: ((MutableList<Record>) -> Unit)?,
         startMessage: String
-) {
+): Long {
     println(startMessage)
 
     val sortTime = if (sort != null) {
@@ -57,11 +56,13 @@ private fun testSearchWithSort(
         println("Searching time: ${searchTime.millisecToString()}")
     }
     println()
+
+    return fullTime
 }
 
 private fun searchAll(names: List<String>, phoneBook: PhoneBook): Triple<Int, Int, Long> {
-    var cntAll: Int = 0
-    var cntSearch: Int = 0
+    var cntAll = 0
+    var cntSearch = 0
 
     val searchTimeInMs = measureTimeMillis {
         for (obj in names) {
@@ -80,4 +81,37 @@ private fun Long.millisecToString(): String {
     val sec = allsec % 60
     val min = allsec / 60
     return "$min min. $sec sec. $ms ms."
+}
+
+private fun specialTestCaseWithBubbleSortAndJumpSearch(
+        names: List<String>,
+        phoneBook: PhoneBook,
+        startMessage: String,
+        maxTimeInMs: Long
+): Long {
+    println(startMessage)
+
+    var stopped = false
+    val bubbleSortTime = measureTimeMillis {
+        stopped = bubbleSortWithStop(phoneBook.records, maxTimeInMs)
+    }
+
+    phoneBook.searchMethod = if (stopped) {
+        ::linearSearch
+    } else {
+        ::jumpSearch
+    }
+
+    val (found, all, searchTime) = searchAll(names, phoneBook)
+    val fullTime = bubbleSortTime + searchTime
+
+    println("Found $found / $all entries. Time taken: ${fullTime.millisecToString()}")
+    print("Sorting time: ${bubbleSortTime.millisecToString()}")
+    if (stopped) print(" - STOPPED, moved to linear search")
+    println()
+    println("Searching time: ${searchTime.millisecToString()}")
+
+    println()
+
+    return fullTime
 }
