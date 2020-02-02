@@ -1,24 +1,24 @@
 package phonebook
 
-internal fun jumpSearch(searchLine: String, lines: List<String>): Int {
-    if (lines.isEmpty()) return -1
+internal fun jumpSearch(records: List<Record>, searchName: String): Record? {
+    if (records.isEmpty()) return null
 
-    val blockSize = Math.sqrt(lines.size.toDouble()).toInt()
+    val blockSize = Math.sqrt(records.size.toDouble()).toInt()
     var index = 0
 
-    while (index < lines.size) {
-        if (lines[index] == searchLine) break
-        if (lines[index] < searchLine) {
+    while (index < records.size) {
+        if (records[index].name == searchName) break
+        if (records[index].name < searchName) {
             index += blockSize
         }
     }
 
-    if (index > lines.lastIndex) index = lines.lastIndex
-    if (lines[index] < searchLine) return -1
+    if (index > records.lastIndex) index = records.lastIndex
+    if (records[index].name < searchName) return null
 
-    while (index >= 0 && lines[index] >= searchLine) {
+    while (index >= 0 && records[index].name >= searchName) {
         index--
     }
     index++
-    return if (lines[index]!=searchLine) -1 else index
+    return if (records[index].name!=searchName) null else records[index]
 }
