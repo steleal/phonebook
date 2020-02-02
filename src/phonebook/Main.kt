@@ -5,7 +5,7 @@ import kotlin.system.measureTimeMillis
 fun main() {
     val book = importRecordsFromFile("C:\\Users\\user\\Downloads\\directory.txt")
     val searchLines = importLinesFromFile("C:\\Users\\user\\Downloads\\find.txt")
-
+/*
     val linearSearchTime = testSearchWithSort(
             searchLines,
             book,
@@ -19,7 +19,7 @@ fun main() {
             book,
             "Start searching (bubble sort + jump search)...",
             linearSearchTime * 10
-    )
+    )*/
 
     testSearchWithSort(
             searchLines,
@@ -34,7 +34,7 @@ fun main() {
 
 private fun testSearchWithHashTable(names: List<String>, book: PhoneBook) {
     println("Start searching (hash table)...")
-    val table = HashMap<String, String>(1024000)
+    val table = SimpleHashTable<String, String>(1024000)
 
     val createTableTime = measureTimeMillis {
         book.records.forEach {
@@ -96,14 +96,14 @@ private fun searchAll(names: List<String>, phoneBook: PhoneBook): Triple<Int, In
     return Triple(cntSearch, cntAll, searchTimeInMs)
 }
 
-private fun searchAllWithHashTable(names: List<String>, table: HashMap<String, String>): Triple<Int, Int, Long> {
+private fun searchAllWithHashTable(names: List<String>, table: SimpleHashTable<String, String>): Triple<Int, Int, Long> {
     var cntAll = 0
     var cntSearch = 0
 
     val searchTimeInMs = measureTimeMillis {
         for (obj in names) {
             cntAll++
-            val record = table[obj]
+            val record = table.get(obj)
             record?.let { cntSearch++ }
         }
     }
