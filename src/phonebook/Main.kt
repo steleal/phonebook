@@ -5,7 +5,7 @@ import kotlin.system.measureTimeMillis
 fun main() {
     val book = importRecordsFromFile("C:\\Users\\user\\Downloads\\directory.txt")
     val searchLines = importLinesFromFile("C:\\Users\\user\\Downloads\\find.txt")
-/*
+
     val linearSearchTime = testSearchWithSort(
             searchLines,
             book,
@@ -27,22 +27,23 @@ fun main() {
             ::binarySearch,
             ::quickSort,
             "Start searching (quick sort + binary search)..."
-    )*/
+    )
 
     testSearchWithHashTable(searchLines, book)
 }
 
 private fun testSearchWithHashTable(names: List<String>, book: PhoneBook) {
     println("Start searching (hash table)...")
-    val table = SimpleHashTable<String, String>(book.records.size)
+     var table: SimpleHashTable<String, String>? = null
 
     val createTableTime = measureTimeMillis {
+        table = SimpleHashTable(book.records.size)
         book.records.forEach {
-            table.put(it.name, it.phoneNumber)
+            table?.put(it.name, it.phoneNumber)
         }
     }
 
-    val (found, all, searchTime) = searchAllWithHashTable(names, table)
+    val (found, all, searchTime) = searchAllWithHashTable(names, table!!)
     val fullTime = createTableTime + searchTime
 
     println("Found $found / $all entries. Time taken: ${fullTime.millisecToString()}")
