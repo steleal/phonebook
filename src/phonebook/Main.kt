@@ -51,7 +51,7 @@ private fun testSearchWithSort(
     val (found, all, searchTime) = searchAll(names, phoneBook)
     val fullTime = sortTime + searchTime
 
-    println("Found $found / $all entries. Time taken: $fullTime")
+    println("Found $found / $all entries. Time taken: ${fullTime.millisecToString()}")
     if (sort != null) {
         println("Sorting time: ${sortTime.millisecToString()}")
         println("Searching time: ${searchTime.millisecToString()}")
