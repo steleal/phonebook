@@ -31,11 +31,10 @@ fun main() {
     )
 }
 
-
 private fun testSearchWithSort(
         names: List<String>,
         phoneBook: PhoneBook,
-        search: (List<Record>, String) -> Record,
+        search: (List<Record>, String) -> Record?,
         sort: ((MutableList<Record>) -> Unit)?,
         startMessage: String
 ) {
@@ -59,7 +58,6 @@ private fun testSearchWithSort(
     }
     println()
 }
-
 
 private fun searchAll(names: List<String>, phoneBook: PhoneBook): Triple<Int, Int, Long> {
     var cntAll: Int = 0

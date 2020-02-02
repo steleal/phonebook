@@ -28,3 +28,7 @@ internal fun jumpSearch(records: List<Record>, searchName: String): Record? {
     index++
     return if (records[index].name != searchName) null else records[index]
 }
+
+internal fun binarySearch(records: List<Record>, searchName: String): Record? {
+    TODO()
+}

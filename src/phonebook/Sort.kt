@@ -12,6 +12,10 @@ internal fun bubbleSort(records: MutableList<Record>) {
     }
 }
 
+internal fun quickSort(records: MutableList<Record>) {
+    TODO()
+}
+
 private fun change(records: MutableList<Record>, i: Int, j: Int) {
     val tmp = records[i]
     records[i] = records[j]
