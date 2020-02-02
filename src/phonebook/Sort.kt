@@ -1,14 +1,16 @@
 package phonebook
 
 internal fun bubbleSort(records: MutableList<Record>) {
-
+    if (records.size<2) return
     for (i in records.indices) {
-        for (j in 1..(records.lastIndex - i)) {
-            val prev = j - 1
-            if (records[prev].isMoreThan(records[j])) {
-                swap(records, prev, j)
+        val high = records.lastIndex - i
+        var maxI = 0
+        for (j in 0..high) {
+            if (records[j].isMoreThan(records[maxI])) {
+                maxI = j
             }
         }
+        swap(records, maxI, high)
     }
 }
 
