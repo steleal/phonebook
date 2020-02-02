@@ -28,6 +28,27 @@ fun main() {
             ::quickSort,
             "Start searching (quick sort + binary search)..."
     )
+
+    testSearchWithHashTable(searchLines, book)
+}
+
+private fun testSearchWithHashTable(names: List<String>, book: PhoneBook) {
+    println("Start searching (hash table)...")
+    val table = HashMap<String, String>(1024000)
+
+    val createTableTime = measureTimeMillis {
+        book.records.forEach {
+            table.put(it.name, it.phoneNumber)
+        }
+    }
+
+    val (found, all, searchTime) = searchAllWithHashTable(names, table)
+    val fullTime = createTableTime + searchTime
+
+    println("Found $found / $all entries. Time taken: ${fullTime.millisecToString()}")
+    println("Creating time: ${createTableTime.millisecToString()}")
+    println("Searching time: ${searchTime.millisecToString()}")
+    println()
 }
 
 private fun testSearchWithSort(
@@ -68,6 +89,21 @@ private fun searchAll(names: List<String>, phoneBook: PhoneBook): Triple<Int, In
         for (obj in names) {
             cntAll++
             val record = phoneBook.search(obj)
+            record?.let { cntSearch++ }
+        }
+    }
+
+    return Triple(cntSearch, cntAll, searchTimeInMs)
+}
+
+private fun searchAllWithHashTable(names: List<String>, table: HashMap<String, String>): Triple<Int, Int, Long> {
+    var cntAll = 0
+    var cntSearch = 0
+
+    val searchTimeInMs = measureTimeMillis {
+        for (obj in names) {
+            cntAll++
+            val record = table[obj]
             record?.let { cntSearch++ }
         }
     }
