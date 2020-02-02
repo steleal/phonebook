@@ -12,18 +12,18 @@ class SimpleHashTable<K, V>(val capacity: Int) {
 
         while (t >= 1) {
             t = t shr 1
-            cnt ++
+            cnt++
         }
 
         t = 1 shl cnt
-        return Math.max(16, t)
+        return 16.coerceAtLeast(t)
     }
 
     private val buckets = arrayOfNulls<Entry<K, V>>(bucketSize)
-    private var size = 0;
+    private var size = 0
 
     fun put(key: K, value: V) {
-        val entry = Entry<K, V>(key, value, null)
+        val entry = Entry(key, value, null)
 
         val bucketIndex = getBucketIndex(key)
 
