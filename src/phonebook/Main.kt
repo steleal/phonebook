@@ -19,7 +19,7 @@ fun main() {
             book,
             "Start searching (bubble sort + jump search)...",
             linearSearchTime * 10
-    )*/
+    )
 
     testSearchWithSort(
             searchLines,
@@ -27,14 +27,14 @@ fun main() {
             ::binarySearch,
             ::quickSort,
             "Start searching (quick sort + binary search)..."
-    )
+    )*/
 
     testSearchWithHashTable(searchLines, book)
 }
 
 private fun testSearchWithHashTable(names: List<String>, book: PhoneBook) {
     println("Start searching (hash table)...")
-    val table = SimpleHashTable<String, String>(1024000)
+    val table = SimpleHashTable<String, String>(book.records.size)
 
     val createTableTime = measureTimeMillis {
         book.records.forEach {
