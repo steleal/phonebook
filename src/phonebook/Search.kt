@@ -26,5 +26,5 @@ internal fun jumpSearch(records: List<Record>, searchName: String): Record? {
         index--
     }
     index++
-    return if (records[index].name!=searchName) null else records[index]
+    return if (records[index].name != searchName) null else records[index]
 }
