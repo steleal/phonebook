@@ -1,5 +1,7 @@
 package phonebook
 
+import phonebook.sort.bubbleSortWithStopTime
+import phonebook.sort.quickSort
 import kotlin.system.measureTimeMillis
 
 fun main() {
@@ -34,7 +36,7 @@ fun main() {
 
 private fun testSearchWithHashTable(names: List<String>, book: PhoneBook) {
     println("Start searching (hash table)...")
-     var table: SimpleHashTable<String, String>? = null
+    var table: SimpleHashTable<String, String>? = null
 
     val createTableTime = measureTimeMillis {
         table = SimpleHashTable(book.records.size)
@@ -130,7 +132,7 @@ private fun specialTestCaseWithBubbleSortAndJumpSearch(
 
     var stopped = false
     val bubbleSortTime = measureTimeMillis {
-        stopped = bubbleSortWithStop(phoneBook.records, maxTimeInMs)
+        stopped = bubbleSortWithStopTime(phoneBook.records, maxTimeInMs)
     }
 
     phoneBook.searchMethod = if (stopped) {
