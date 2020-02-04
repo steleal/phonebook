@@ -1,5 +1,6 @@
-package phonebook
+package phonebook.search
 
+import phonebook.Record
 import kotlin.math.sqrt
 
 internal fun linearSearch(records: List<Record>, searchName: String): Record? {
