@@ -17,11 +17,8 @@ fun importRecordsFromFile(name: String): PhoneBook {
 private fun lineToRecord(line: String): Record? {
     if (line.isBlank() || !line.contains(" ")) return null
 
-    val numberEnd = line.indexOfFirst { it == ' ' }
-    val nameStart = numberEnd + 1
-
-    val number = line.substring(0, numberEnd)
-    val name = line.substring(nameStart)
+    val number = line.substringBefore(' ')
+    val name = line.substringAfter(' ')
 
     return Record(number, name)
 }
