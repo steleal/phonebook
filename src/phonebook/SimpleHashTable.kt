@@ -5,20 +5,6 @@ package phonebook
 
 class SimpleHashTable<K, V>(val capacity: Int) {
     private val bucketSize = getBucketSize(capacity)
-
-    private fun getBucketSize(capacity: Int): Int {
-        var t = capacity / 12
-        var cnt = 0
-
-        while (t >= 1) {
-            t = t shr 1
-            cnt++
-        }
-
-        t = 1 shl cnt
-        return 16.coerceAtLeast(t)
-    }
-
     private val buckets = arrayOfNulls<Entry<K, V>>(bucketSize)
     private var size = 0
 
@@ -39,6 +25,7 @@ class SimpleHashTable<K, V>(val capacity: Int) {
                 }
                 existing = existing.next
             }
+
             if (existing.key == key) {
                 existing.value = value
             } else {
@@ -61,6 +48,19 @@ class SimpleHashTable<K, V>(val capacity: Int) {
     }
 
     private fun getBucketIndex(key: K) = (key.hashCode() ushr 1) % bucketSize
+
+    private fun getBucketSize(capacity: Int): Int {
+        var t = capacity / 12
+        var cnt = 0
+
+        while (t >= 1) {
+            t = t shr 1
+            cnt++
+        }
+
+        t = 1 shl cnt
+        return Math.max(16, t)
+    }
 }
 
 private data class Entry<K, V>(
