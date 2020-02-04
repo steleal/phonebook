@@ -14,11 +14,16 @@ fun importRecordsFromFile(name: String): PhoneBook {
     return PhoneBook(records)
 }
 
-private fun lineToRecord(line: String): Record? {
+private inline fun lineToRecord(line: String): Record? {
     if (line.isBlank() || !line.contains(" ")) return null
 
-    val number = line.substringBefore(' ')
-    val name = line.substringAfter(' ')
+    // With substringFirst and without inline
+    // I was missing about two hundred milliseconds for passing the test
+    val numberEnd = line.indexOfFirst { it == ' ' }
+    val nameStart = numberEnd + 1
+
+    val number = line.substring(0, numberEnd)
+    val name = line.substring(nameStart)
 
     return Record(number, name)
 }
