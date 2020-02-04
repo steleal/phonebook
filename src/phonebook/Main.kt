@@ -1,5 +1,8 @@
 package phonebook
 
+import phonebook.search.binarySearch
+import phonebook.search.jumpSearch
+import phonebook.search.linearSearch
 import phonebook.sort.bubbleSortWithStopTime
 import phonebook.sort.quickSort
 import kotlin.system.measureTimeMillis
